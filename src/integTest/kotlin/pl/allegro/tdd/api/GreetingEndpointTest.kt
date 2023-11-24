@@ -9,7 +9,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.get
 import org.springframework.test.web.servlet.put
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureMockMvc
 class GreetingEndpointTest(
     @Autowired private val mockMvc: MockMvc,
@@ -35,6 +35,16 @@ class GreetingEndpointTest(
 
         mockMvc.get("/greeting").andExpect {
             content { json(""" { "message": "updated message" } """) }
+        }
+    }
+
+    @Test
+    fun `fail to update`() {
+        mockMvc.put("/greeting") {
+            contentType = MediaType.APPLICATION_JSON
+            content = """ { "message": "" } """
+        }.andExpect {
+            status { is4xxClientError() }
         }
     }
 }

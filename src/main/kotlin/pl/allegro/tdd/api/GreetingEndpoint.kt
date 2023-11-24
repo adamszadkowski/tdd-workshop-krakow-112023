@@ -1,5 +1,6 @@
 package pl.allegro.tdd.api
 
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import pl.allegro.tdd.domain.GreetingService
 
@@ -17,6 +18,11 @@ class GreetingEndpoint(
     @PutMapping
     fun updateGreeting(@RequestBody request: UpdateRequest): GreetingResponse {
         return GreetingResponse(greetingService.update(request.message))
+    }
+
+    @ExceptionHandler(GreetingService.InvalidMessageException::class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    fun handleInvalidMessage() {
     }
 }
 
