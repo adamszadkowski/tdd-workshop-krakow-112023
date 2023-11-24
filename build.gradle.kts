@@ -13,7 +13,7 @@ repositories {
 }
 
 springBoot {
-    mainClass.set("pl.allegro.tdd.DummyMainKt")
+    mainClass.set("pl.allegro.tdd.GreetingApplicationKt")
 }
 
 dependencies {
